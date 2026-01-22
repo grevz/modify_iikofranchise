@@ -1,13 +1,14 @@
 // ==UserScript==
 // @name         iiko Franchise Core
 // @namespace    https://github.com/grevz/modify_iikofranchise
-// @version      1.0.3
-// @description  Core-скрипт для iiko Franchise (объединённый)
+// @version      1.0.4
+// @description  Набор скриптов, которые упрощают работы с iikofranchise. 1. Кнопка для выбора нескольких точек. 2. Отображает только действующие бланки заказов. 3. Отключает авто-скролл при раскрытии папки в обмене номенклатуры.
 // @match        https://franchise-1.iiko.it/*
 // @grant        none
 // @run-at       document-idle
 // @updateURL    https://raw.githubusercontent.com/grevz/modify_iikofranchise/main/iiko-core.user.js
 // @downloadURL  https://raw.githubusercontent.com/grevz/modify_iikofranchise/main/iiko-core.user.js
+// @author       Григорий Зайцев. (ТГ @Zaitsev8)
 // ==/UserScript==
 
 (function () {
