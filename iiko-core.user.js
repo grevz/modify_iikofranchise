@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         iiko Franchise Core
 // @namespace    https://github.com/grevz/modify_iikofranchise
-// @version      1.0.4
+// @version      1.0.5
 // @description  Набор скриптов, которые упрощают работы с iikofranchise. 1. Кнопка для выбора нескольких точек. 2. Отображает только действующие бланки заказов. 3. Отключает авто-скролл при раскрытии папки в обмене номенклатуры.
 // @match        https://franchise-1.iiko.it/*
 // @grant        none
@@ -17,6 +17,7 @@
     /* =========================
        Bootstrap
     ========================== */
+    
     if (location.hostname !== 'franchise-1.iiko.it') {
         return;
     }
