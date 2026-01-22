@@ -13,6 +13,6 @@
     'use strict';
 
     if (location.hostname === 'franchise-1.iiko.it') {
-        console.log('Ты во франшизе но в новой версии. Удачи!');
+        console.log('Ты во франшизе но в новой версии 1.0.1. Удачи!');
     }
 })();
