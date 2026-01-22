@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         iiko Franchise Core
 // @namespace    https://github.com/grevz/modify_iikofranchise
-// @version      1.0.2
+// @version      1.0.3
 // @description  Core-скрипт для iiko Franchise (объединённый)
 // @match        https://franchise-1.iiko.it/*
 // @grant        none
