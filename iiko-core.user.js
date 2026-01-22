@@ -16,7 +16,6 @@
     /* =========================
        Bootstrap
     ========================== */
-
     if (location.hostname !== 'franchise-1.iiko.it') {
         return;
     }
