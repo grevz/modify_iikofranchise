@@ -152,20 +152,38 @@
        Module 3: Scroll Restore
     ========================== */
 
-    (function moduleScrollRestore() {
-        const headerSelector = '.k-grid-header';
-        const containerSelector = '.k-grid-content';
-        let currentContainer = null;
+(function moduleScrollRestore() {
+    console.log('🚀 Scroll Restore module loaded');
 
-        function init(container) {
-            let savedScrollTop = 0;
-            let active = false;
-            let stableFrames = 0;
+    const headerSelector = '.k-grid-header';
+    const containerSelector = '.k-grid-content';
+    let currentContainer = null;
 
-            function loop() {
-                if (!active) return;
+    function initScrollRestore(container) {
+        console.log('✅ Init scroll restore on:', container);
 
-                if (container.scrollTop !== savedScrollTop) {
+        let savedScrollTop = 0;
+        let active = false;
+        let started = false;
+        let stableFrames = 0;
+        let lastScrollTop = 0;
+        let lastHeight = 0;
+
+        function loop() {
+            if (!active) return;
+
+            const st = container.scrollTop;
+            const h = container.scrollHeight;
+
+            if (!started) {
+                if (st !== lastScrollTop || h !== lastHeight) {
+                    started = true;
+                    console.log('▶️ scroll update started');
+                }
+            }
+
+            if (started) {
+                if (st !== savedScrollTop) {
                     container.scrollTop = savedScrollTop;
                     stableFrames = 0;
                 } else {
@@ -174,35 +192,46 @@
 
                 if (stableFrames >= 8) {
                     active = false;
+                    console.log('🔓 scroll stabilized');
                     return;
                 }
-
-                requestAnimationFrame(loop);
             }
 
-            document.addEventListener('click', e => {
-                if (!e.target.closest('.k-i-expand, .k-i-collapse')) return;
+            lastScrollTop = st;
+            lastHeight = h;
 
-                setTimeout(() => {
-                    savedScrollTop = container.scrollTop;
-                    active = true;
-                    stableFrames = 0;
-                    requestAnimationFrame(loop);
-                }, 10);
-            }, true);
+            requestAnimationFrame(loop);
         }
 
-        const observer = new MutationObserver(() => {
-            const header = document.querySelector(headerSelector);
-            const container = document.querySelector(containerSelector);
+        document.addEventListener('click', e => {
+            if (!e.target.closest('.k-i-expand, .k-i-collapse')) return;
 
-            if (header && container && container !== currentContainer) {
-                currentContainer = container;
-                init(container);
-            }
-        });
+            setTimeout(() => {
+                savedScrollTop = container.scrollTop;
+                lastScrollTop = savedScrollTop;
+                lastHeight = container.scrollHeight;
 
-        observer.observe(document.body, { childList: true, subtree: true });
-    })();
+                active = true;
+                started = false;
+                stableFrames = 0;
 
+                console.log('📌 scrollTop saved:', savedScrollTop);
+                requestAnimationFrame(loop);
+            }, 10);
+        }, true);
+    }
+
+    const observer = new MutationObserver(() => {
+        const header = document.querySelector(headerSelector);
+        const container = document.querySelector(containerSelector);
+
+        if (header && container && container !== currentContainer) {
+            currentContainer = container;
+            console.log('📊 Grid detected, enabling scroll restore');
+            initScrollRestore(container);
+        }
+    });
+
+    observer.observe(document.body, { childList: true, subtree: true });
+})();
 })();
