@@ -1,8 +1,8 @@
 // ==UserScript==
 // @name         iiko Franchise Core
 // @namespace    https://github.com/grevz/modify_iikofranchise
-// @version      1.0.8
-// @description Набор скриптов, которые упрощают работу с iikoFranchise. 1. Кнопка для выбора нескольких точек. 2. Отображает только действующие бланки заказов. 3. Отключает авто-скролл при раскрытии папки в обмене номенклатуры.
+// @version      1.0.9
+// @description Набор скриптов, которые упрощают работу с iikoFranchise. 1. Кнопка для выбора нескольких точек. 2. Отображает только действующие бланки заказов. 3. Отключает авто-скролл при раскрытии папки в обмене номенклатуры. 4. Кнопка д
 // @match        https://franchise-1.iiko.it/*
 // @grant        none
 // @run-at       document-idle
@@ -234,5 +234,60 @@
     });
 
     observer.observe(document.body, { childList: true, subtree: true });
+
+/* =================================
+       Module 4: Выбрать все точки в приказах
+    =================================== */
+    (function () {
+    'use strict';
+
+    function addButton() {
+
+        const label = document.querySelector('label[for="target-departments-grid"]');
+        if (!label) return;
+
+        if (document.querySelector("#tm-toggle-all")) return;
+
+        const button = document.createElement("button");
+        button.id = "tm-toggle-all";
+        button.textContent = "Выбрать все";
+
+        button.style.marginLeft = "10px";
+        button.style.padding = "4px 10px";
+        button.style.cursor = "pointer";
+
+        label.insertAdjacentElement("afterend", button);
+
+        button.addEventListener("click", () => {
+
+            const boxes = document.querySelectorAll(
+                "input.chk-department-template"
+            );
+
+            const allChecked = [...boxes].every(cb => cb.checked);
+
+            boxes.forEach(cb => {
+
+                cb.checked = !allChecked;
+
+                cb.dispatchEvent(
+                    new Event("change", { bubbles: true })
+                );
+
+            });
+
+            button.textContent = allChecked
+                ? "Выбрать все"
+                : "Снять все";
+        });
+    }
+
+    const observer = new MutationObserver(addButton);
+
+    observer.observe(document.body, {
+        childList: true,
+        subtree: true
+    });
+        
 })();
 })();
